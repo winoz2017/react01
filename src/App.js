@@ -1,59 +1,30 @@
-import { useState } from 'react'; 
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-function App() {
-  let [a,b] = useState(0);
-  let [modal,setModal] = useState(false)
-  let [myData,setData] = useState(
-    ["안녕하세요","만나서반갑네요","고맙습니다."]
-    )
-  function han(){
-    b(a+1);
-  }
+
+const App =()=> {
+  const [data, setData] = useState([]);
+
+  const view = async () => {
+    try {
+      const response = await axios.get(
+        'https://jsonplaceholder.typicode.com/posts',
+      );
+      setData(response.data);
+      console.log(response.data)
+    } catch(e) {
+      console.log(e);
+    }    
+  };
+  view()
+
   return (
-    <div className="App">
-      <div>{a}</div>
-     <button onClick={han}>test</button>
-     <button onClick={()=>{setModal(true)}}>열기</button>
-
-     {
-        // myData.map(function(a,i){
-        //   return(
-        //     <div>{myData[i]}</div>
-        //   )
-        // })
-
-       myData.map(function(a,i){
-        return(
-          <div key={i}>{a}</div>
-        )
-       })
-     }
-    
-     {
-      modal==true ? <Modal props={()=>setModal(false)}></Modal>:null
-     }
-     
-
-
-
-    </div>
+      <>
+          <h1>Users</h1>
+          {}
+          
+      </>
   );
 }
-
-function Modal({props}){
-  return(
-    <div className="modal" >
-      <h2>제목</h2>
-      <p>test</p>
-      <button onClick={props}>닫기</button>
-    </div>
-
-
-  )
-}
-
-
 
 export default App;
